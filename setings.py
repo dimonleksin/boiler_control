@@ -1,6 +1,6 @@
 #Настройки телеграм
-myToken = "6188287400:AAENuRuCIhjw81vIfNsRilkPbOg8n2mkhkk"
-myTokenAlarm = "6281927963:AAEFpcX-1TKZJrWlAsClu364JyrEBKhffBw"
+myToken = ""
+myTokenAlarm = ""
 myId = 829921481
 sheId = 1776929080
 
