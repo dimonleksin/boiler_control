@@ -6,7 +6,10 @@
 #define WIFI_SSID "Beeline_2G_F44659"
 #define WIFI_PASS "11235813"
 #define ONE_WIRE_BUS 0 // Пин подключения OneWire шины, 0 (D3)
+#define CHAT_ID 829921481 //ID My Chat Telegramm
+#define TOKEN  //API Token
 
+//int HTTP_PORT = 443
 char temperatureCString[6];
 String json = "";
 String stat = "";
@@ -108,14 +111,29 @@ void setBoilerStatusZero() {
     server.send(200, "application/json", "{\"boilerStatus\": \"Котел уже выключен\"}");
   }
 }
+//Function for send Alarm to telegramm
 void AlarmTemp() {
   DS18B20.requestTemperatures();
-  float getTempResult = DS18B20.getTempCByIndex(0);
-  if(getTempResult > 30.0){
-    Serial.println(getTempResult);
+  float temp_boiler = DS18B20.getTempCByIndex(0);
+  float temp_house = DS18B20.getTempCByIndex(1);
+  if(client.connect(api.telegram.org:443)){
+    if(temp_boiler > 70.0) {
+      client.println("GET " + "bot" + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=Temperature Boiler Up to " + String(temp_boiler);
+      client.println("Host: api.telegram.org");
+      client.println("Connection: close");
+      client.println();
+    }
+    if(temp_house < 5.0) {
+      client.println("GET " + "bot" + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=Temperature House Down to " + String(temp_house);
+      client.println("Host: api.telegram.org");
+      client.println("Connection: close");
+      client.println();
+  }
+  else {
+    Serial.println("Not connect to server")
   }
 }
 void loop() {
   server.handleClient();
-  //AlarmTemp();
+  AlarmTemp();
 }

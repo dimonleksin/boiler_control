@@ -39,8 +39,6 @@ def setBoilerStatus(state):
             pars = json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
             print(pars)
             return pars
-
-
 @bot.message_handler(commands = ['start'])
 def start (message):
     if message.chat.id == setings.myId or message.chat.id == setings.sheId:
