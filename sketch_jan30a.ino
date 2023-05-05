@@ -7,7 +7,6 @@
 #define WIFI_PASS "11235813"
 #define ONE_WIRE_BUS 0 // Пин подключения OneWire шины, 0 (D3)
 
-
 char temperatureCString[6];
 String json = "";
 String stat = "";
@@ -41,26 +40,18 @@ void setup() {
   float tempSensor1, tempSensor2, tempSensor3;
   Serial.print("Обнаруженно датчиков");
   Serial.println(deviceCount);
-  
-  
   Serial.println("HTTP server started");
   //Отправка температуры
   server.on("/temp", getTemperature);
-
   //Отправка состояние бойлера
   server.on("/status", getBoilerStatus);
-
   server.on("/setstatus/1", setBoilerStatusOne);
-
   server.on("/setstatus/0", setBoilerStatusZero);
-
   server.begin();
-
   //Настройка пина для реле
   pinMode(4, OUTPUT);
   digitalWrite(4, boilerStatus);
 }
-
 void getTemperature() {
   DS18B20.requestTemperatures();
   Serial.println(DS18B20.getTempCByIndex(0));
@@ -69,14 +60,13 @@ void getTemperature() {
   json += DS18B20.getTempCByIndex(0);
   json += "\", ";
   json += "\"tempHouse\": \"";
-  json += DS18B20.getTempCByIndex(1); //Подставить данные со второго датчика
+  json += DS18B20.getTempCByIndex(1);
   json += "\", ";
   json += "\"tempOutside\": \"";
-  json += DS18B20.getTempCByIndex(2); //Подставить данные с третьего датчика
+  json += DS18B20.getTempCByIndex(2);
   json += "\"}";
   server.send(200, "application/json", json);
 }
-
 void getBoilerStatus() {
   if(boilerStatus){
     stat = "{\"boilerStatus\": \"Котел включен\"}";
@@ -93,7 +83,6 @@ void getBoilerStatus() {
     server.send(200, "application/json", stat);
   }
 }
-
 void setBoilerStatusOne() {
   if (!boilerStatus) {
     boilerStatus = HIGH;
@@ -119,7 +108,6 @@ void setBoilerStatusZero() {
     server.send(200, "application/json", "{\"boilerStatus\": \"Котел уже выключен\"}");
   }
 }
-
 void AlarmTemp() {
   DS18B20.requestTemperatures();
   float getTempResult = DS18B20.getTempCByIndex(0);
@@ -127,7 +115,6 @@ void AlarmTemp() {
     Serial.println(getTempResult);
   }
 }
-
 void loop() {
   server.handleClient();
   //AlarmTemp();
