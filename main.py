@@ -8,7 +8,10 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import setings
-from app import app
+from flask import Flask
+
+app = Flask(__name__)
+from app import views
 
 # bot = telebot.TeleBot(setings.myToken)
 
