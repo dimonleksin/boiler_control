@@ -6,5 +6,6 @@ services:
     ports:
       - 5000:5000
     environment:
-      - flask_app=/app/main.py
+      - FLASK_APP=/app/main.py
+      - FLASK_ENV=development
     
