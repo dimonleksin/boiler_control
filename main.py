@@ -38,7 +38,7 @@ def getBoilerStatus ():
 @app.route('/set-status')
 def setBoilerStatus():
     try:
-        args = request.args.get('status')
+        args = int(request.args.get('status'))
         print(args)
         if args == 0:
             res = requests.get(f'{setings.address}/setstatus/0')
