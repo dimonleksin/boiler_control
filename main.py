@@ -40,7 +40,7 @@ def setBoilerStatus():
     try:
         args = request.args.get('status')
         print(args)
-        return args
+        return 'ok'
     except Exception as ex:
         return ex
     # if state == 0:
