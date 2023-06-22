@@ -57,6 +57,7 @@ def setBoilerStatus():
                 return pars
             else:
                 return ('Запрос провалился')
+        return args
         # return 'ok'
     except Exception as ex:
         return ex
