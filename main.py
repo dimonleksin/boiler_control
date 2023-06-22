@@ -39,7 +39,7 @@ def getBoilerStatus ():
 def setBoilerStatus():
     args = request.args.get('status')
   #  print(args)
-    return args
+    return 'Ok'
     # if state == 0:
     #     res = requests.get(f'{setings.address}/setstatus/0')
     #     if res:
