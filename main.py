@@ -41,11 +41,11 @@ def setBoilerStatus():
         args = request.args.get('status')
         print(args)
         if args == 0:
-        res = requests.get(f'{setings.address}/setstatus/0')
-        if res:
-            pars = json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
-            print(pars)
-            return pars
+            res = requests.get(f'{setings.address}/setstatus/0')
+            if res:
+                pars = json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
+                print(pars)
+                return pars
 
         elif args == 1:
             res = requests.get(f'{setings.address}/setstatus/1')
