@@ -4,4 +4,4 @@ mkdir /app
 WORKDIR /app
 COPY ./ ./
 RUN chmod +x ./main.py
-CMD flask run --debug
+CMD flask --app main.py run --host 0.0.0.0

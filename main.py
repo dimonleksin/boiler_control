@@ -19,35 +19,37 @@ app = Flask(__name__)
 def index():
     return 'Тестовый запуск удался'
     
-# @app.route('/gettemp')
-# def getTemp():
-#     try:
-#         temp = requests.get(f'{setings.address}/temp')
-#         result = BeautifulSoup(temp.text, "html.parser").string
-#         json_pars = json.loads(result)
-#         #print(json_pars)
-#         return json_pars
-#     except Exception as ex:
-#         return ex
+@app.route('/gettemp')
+def getTemp():
+    try:
+        temp = requests.get(f'{setings.address}/temp')
+        result = BeautifulSoup(temp.text, "html.parser").string
+        json_pars = json.loads(result)
+        #print(json_pars)
+        return json_pars
+    except Exception as ex:
+        return ex
 
-# def getBoilerStatus ():
-#     res = requests.get(f'{setings.address}/status')
-#     return json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
+@app.route('/get-status')
+def getBoilerStatus ():
+    res = requests.get(f'{setings.address}/status')
+    return json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
+    
+@app.route('/set-status')
+def setBoilerStatus(state):
+    if state == 0:
+        res = requests.get(f'{setings.address}/setstatus/0')
+        if res:
+            pars = json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
+            print(pars)
+            return pars
 
-# def setBoilerStatus(state):
-#     if state == 0:
-#         res = requests.get(f'{setings.address}/setstatus/0')
-#         if res:
-#             pars = json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
-#             print(pars)
-#             return pars
-
-#     elif state == 1:
-#         res = requests.get(f'{setings.address}/setstatus/1')
-#         if res:
-#             pars = json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
-#             print(pars)
-#             return pars
+    elif state == 1:
+        res = requests.get(f'{setings.address}/setstatus/1')
+        if res:
+            pars = json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
+            print(pars)
+            return pars
 # @bot.message_handler(commands = ['start'])
 # def start (message):
 #     if message.chat.id == setings.myId or message.chat.id == setings.sheId:
