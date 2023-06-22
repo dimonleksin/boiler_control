@@ -37,19 +37,21 @@ def getBoilerStatus ():
     
 @app.route('/set-status')
 def setBoilerStatus(state):
-    if state == 0:
-        res = requests.get(f'{setings.address}/setstatus/0')
-        if res:
-            pars = json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
-            print(pars)
-            return pars
+    args = request.args
+    print(args.get())
+    # if state == 0:
+    #     res = requests.get(f'{setings.address}/setstatus/0')
+    #     if res:
+    #         pars = json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
+    #         print(pars)
+    #         return pars
 
-    elif state == 1:
-        res = requests.get(f'{setings.address}/setstatus/1')
-        if res:
-            pars = json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
-            print(pars)
-            return pars
+    # elif state == 1:
+    #     res = requests.get(f'{setings.address}/setstatus/1')
+    #     if res:
+    #         pars = json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
+    #         print(pars)
+    #         return pars
 # @bot.message_handler(commands = ['start'])
 # def start (message):
 #     if message.chat.id == setings.myId or message.chat.id == setings.sheId:
