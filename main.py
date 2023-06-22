@@ -8,8 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import setings
-from flask import Flask
-from flask import request
+from flask import Flask, request
 
 app = Flask(__name__)
 
@@ -39,7 +38,7 @@ def getBoilerStatus ():
 @app.route('/set-status')
 def setBoilerStatus():
     args = request.args.get('status')
-    print(args)
+  #  print(args)
     return args
     # if state == 0:
     #     res = requests.get(f'{setings.address}/setstatus/0')
