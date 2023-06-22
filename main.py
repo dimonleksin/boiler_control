@@ -37,9 +37,12 @@ def getBoilerStatus ():
     
 @app.route('/set-status')
 def setBoilerStatus():
-    args = request.args.get('status')
-  #  print(args)
-    return 'Ok'
+    try:
+        args = request.args.get('status')
+        print(args)
+        return args
+    except Exception as ex:
+        return ex
     # if state == 0:
     #     res = requests.get(f'{setings.address}/setstatus/0')
     #     if res:
