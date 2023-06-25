@@ -2,9 +2,9 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include <ESP8266WebServer.h>
-#include <HttpClient.h>
+// #include <HttpClient.h>
 #include <WiFiClient.h>
-#include <ESP8266HTTPClient.h>
+// #include <ESP8266HTTPClient.h>
 
 #define WIFI_SSID "Beeline_2G_F44659"
 #define WIFI_PASS "11235813"
@@ -29,6 +29,7 @@ ESP8266WebServer server(80);
 
 void setup() {
   Serial.begin(115200);
+  WiFi.hostname("boiler");
   WiFi.begin(WIFI_SSID, WIFI_PASS);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -114,7 +115,7 @@ void setBoilerStatusZero() {
     server.send(200, "application/json", "{\"boilerStatus\": \"Котел уже выключен\"}");
   }
 }
-//Function for send Alarm to telegramm
+//Function for send Alarm to telegramm???
 
 void loop() {
   server.handleClient();
