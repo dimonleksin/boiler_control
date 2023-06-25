@@ -80,6 +80,6 @@ def set_switch_bath():
 
 
 # Get status of all device
-@app.route('get_all_stat')
+@app.route('/get_all_stat')
 def get_all_stat():
     pass
