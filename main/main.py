@@ -12,12 +12,12 @@
 import requests
 from bs4 import BeautifulSoup
 import json
-import setings
+import main_settings
 from flask import Flask, request
 
 app = Flask(__name__)
 
-# bot = telebot.TeleBot(setings.myToken)
+# bot = telebot.TeleBot(main_settings.myToken)
 
 @app.route('/')
 def index():
@@ -26,7 +26,7 @@ def index():
 @app.route('/gettemp')
 def getTemp():
     try:
-        temp = requests.get(f'{setings.boiler_address}/temp')
+        temp = requests.get(f'{main_settings.boiler_address}/temp')
         result = BeautifulSoup(temp.text, "html.parser").string
         json_pars = json.loads(result)
         #print(json_pars)
@@ -36,7 +36,7 @@ def getTemp():
 
 @app.route('/get-status')
 def getBoilerStatus ():
-    res = requests.get(f'{setings.boiler_address}/status')
+    res = requests.get(f'{main_settings.boiler_address}/status')
     return json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
     
 @app.route('/set-status')
@@ -45,7 +45,7 @@ def setBoilerStatus():
         args = int(request.args.get('status'))
         print(args)
         if args == 0:
-            res = requests.get(f'{setings.boiler_address}/setstatus/0')
+            res = requests.get(f'{main_settings.boiler_address}/setstatus/0')
             if res:
                 pars = json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
                 print(pars)
@@ -54,7 +54,7 @@ def setBoilerStatus():
                 return 'Запрос провалился'
 
         elif args == 1:
-            res = requests.get(f'{setings.boiler_address}/setstatus/1')
+            res = requests.get(f'{main_settings.boiler_address}/setstatus/1')
             if res:
                 pars = json.loads(BeautifulSoup(res.text, "html.parser").string)["boilerStatus"]
                 print(pars)
@@ -69,7 +69,7 @@ def setBoilerStatus():
 # Get current temp at bath
 @app.route('/get_bath_temp')
 def get_bath_temp():
-    r = requests.get(f'{setings.bath_address}/get_bath_temp')
+    r = requests.get(f'{main_settings.bath_address}/get_bath_temp')
     temp = BeautifulSoup(r.text, 'html.parser').string
     return
 
