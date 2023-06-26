@@ -6,7 +6,7 @@ sheId = 1776929080
 
 # ============================================
 # Boiler control settings
-boiler_address = 'http://ESP-F991A9'
+boiler_address = 'http://192.168.1.'
 boiler_temp_alar = 30.00
 home_temp_alarm = 8.00
 
