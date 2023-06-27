@@ -7,7 +7,7 @@
 // #include <ESP8266HTTPClient.h>
 
 #define WIFI_SSID "Beeline_2G_F44659"
-#define WIFI_PASS "11235813"
+#define WIFI_PASS "pass_to_WiFi"
 #define ONE_WIRE_BUS 0 // Пин подключения OneWire шины, 0 (D3)
 #define CHAT_ID 829921481 //ID My Chat Telegramm
 #define TOKEN  //API Token
