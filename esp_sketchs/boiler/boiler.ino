@@ -16,7 +16,8 @@
 char temperatureCString[6];
 String json = "";
 String stat = "";
-uint8_t boilerStatus = LOW;
+uint8_t boiler_1_status = LOW;
+uint8_t boiler_2_status = LOW;
 
 DeviceAddress termometr[3];
 uint8_t deviceCount = 0;
@@ -51,13 +52,18 @@ void setup() {
   //Отправка температуры
   server.on("/temp", getTemperature);
   //Отправка состояние бойлера
-  server.on("/status", getBoilerStatus);
-  server.on("/setstatus/1", setBoilerStatusOne);
-  server.on("/setstatus/0", setBoilerStatusZero);
+  server.on("/status-1", getboiler_1_status);
+  server.on("/set-1-status/1", setboiler_1_statusOne);
+  server.on("/set-1-status/0", setboiler_1_statusZero);
+  // server.on("/status-2", getboiler_2_status);
+  // server.on("/set-2-status/1", setboiler_2_statusOne);
+  // server.on("/set-2-status/0", setboiler_2_statusZero);
   server.begin();
   //Настройка пина для реле
   pinMode(4, OUTPUT);
-  digitalWrite(4, boilerStatus);
+  digitalWrite(4, boiler_1_status);
+  pinMode(5, OUTPUT);
+  digitalWrite(5, boiler_2_status);
 }
 void getTemperature() {
   DS18B20.requestTemperatures();
@@ -74,45 +80,77 @@ void getTemperature() {
   json += "\"}";
   server.send(200, "application/json", json);
 }
-void getBoilerStatus() {
-  if(boilerStatus){
-    stat = "{\"boilerStatus\": \"Котел включен\"}";
+void getboiler_1_status() {
+  if(boiler_1_status){
+    stat = "{\"boiler_1_status\": \"Котел включен\"}";
     Serial.print("Cтатус бойлера: ");
-    Serial.print(boilerStatus);
+    Serial.print(boiler_1_status);
     Serial.println(stat);
     server.send(200, "application/json", stat);
   }
   else {
-    stat = "{\"boilerStatus\": \"Котел выключен\"}";
+    stat = "{\"boiler_1_status\": \"Котел выключен\"}";
     Serial.print("Cтатус бойлера: ");
-    Serial.print(boilerStatus);
+    Serial.print(boiler_1_status);
     Serial.println(stat);
     server.send(200, "application/json", stat);
-  }
-}
-void setBoilerStatusOne() {
-  if (!boilerStatus) {
-    boilerStatus = HIGH;
-    digitalWrite(4, boilerStatus);
-    Serial.println("Статус котла изменен на Вкл");
-    getBoilerStatus();
-  }
-  else {
-    Serial.print(boilerStatus);
-    server.send(200, "application/json", "{\"boilerStatus\": \"Котел уже включен\"}");
   }
 }
 
-void setBoilerStatusZero() {
-  if (boilerStatus) {
-    boilerStatus = LOW;
-    digitalWrite(4, boilerStatus);
-    Serial.println("Статус котла изменен на Выкл");
-    getBoilerStatus();
+// void getboiler_2_status() {
+//   if(boiler_2_status){
+//     stat = "{\"boiler_2_status\": \"Котел включен\"}";
+//     Serial.print("Cтатус бойлера: ");
+//     Serial.print(boiler_2_status);
+//     Serial.println(stat);
+//     server.send(200, "application/json", stat);
+//   }
+//   else {
+//     stat = "{\"boiler_2_status\": \"Котел выключен\"}";
+//     Serial.print("Cтатус бойлера: ");
+//     Serial.print(boiler_2_status);
+//     Serial.println(stat);
+//     server.send(200, "application/json", stat);
+//   }
+// }
+
+void setboiler_1_statusOne() {
+  if (!boiler_1_status) {
+    boiler_1_status = HIGH;
+    digitalWrite(4, boiler_1_status);
+    Serial.println("Статус котла изменен на Вкл");
+    getboiler_1_status();
   }
   else {
-    Serial.print(boilerStatus);
-    server.send(200, "application/json", "{\"boilerStatus\": \"Котел уже выключен\"}");
+    Serial.print(boiler_1_status);
+    server.send(200, "application/json", "{\"boiler_1_status\": \"Котел уже включен\"}");
+  }
+}
+
+// void setboiler_2_statusOne() {
+//   if (!boiler_2_status) {
+//     boiler_1_status = HIGH;
+//     digitalWrite(5, boiler_1_status);
+//     Serial.println("Статус котла изменен на Вкл");
+//     getboiler_2_status();
+//   }
+//   else {
+//     Serial.print(boiler_2_status);
+//     server.send(200, "application/json", "{\"boiler_2_status\": \"Котел уже включен\"}");
+//   }
+// }
+
+
+void setboiler_1_statusZero() {
+  if (boiler_1_status) {
+    boiler_1_status = LOW;
+    digitalWrite(4, boiler_1_status);
+    Serial.println("Статус котла изменен на Выкл");
+    getboiler_1_status();
+  }
+  else {
+    Serial.print(boiler_1_status);
+    server.send(200, "application/json", "{\"boiler_1_status\": \"Котел уже выключен\"}");
   }
 }
 //Function for send Alarm to telegramm???
