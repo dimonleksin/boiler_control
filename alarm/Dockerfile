@@ -1,5 +1,5 @@
 FROM ubuntu
-RUN apt update && apt install -y python3 pip git && pip3 install -r ../requiroments.txt && \
+RUN apt update && apt install -y python3 pip && pip3 install -r ../requiroments.txt && \
 mkdir /app
 WORKDIR /app
 COPY ./* ./
