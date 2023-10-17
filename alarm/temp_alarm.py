@@ -4,7 +4,7 @@ import requests
 # from bs4 import BeautifulSoup
 import json
 import alarm_settings
-import time
+import datetime
 
 bot = telebot.TeleBot(alarm_settings.myTokenAlarm)
 while True:
@@ -16,9 +16,12 @@ while True:
 
             # print() Print alarm message in log
         # Alarm, when temp in the bath > limits
-        bath_temp = main.get_bath_temp()
-        if bath_temp > alarm_settings.bath_temp_alarm:
-            bot.send_message(alarm_settings.myId, f'Температура в сауне превысила {bath_temp}')
+        # bath_temp = main.get_bath_temp()
+        # if bath_temp > alarm_settings.bath_temp_alarm:
+        #     bot.send_message(alarm_settings.myId, f'Температура в сауне превысила {bath_temp}')
+        t = datetime.datetime.now()
+        with open("temp_graf", "wa") as f:
+            f.write(str(t))
     except Exception as ex:
         print(ex)
     time.sleep(30)

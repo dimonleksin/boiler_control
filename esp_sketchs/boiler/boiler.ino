@@ -5,12 +5,7 @@
 // #include <HttpClient.h>
 #include <WiFiClient.h>
 // #include <ESP8266HTTPClient.h>
-
-#define WIFI_SSID "Tele2_722732"
-#define WIFI_PASS "02284560"
-#define ONE_WIRE_BUS 0 // Пин подключения OneWire шины, 0 (D3)
-#define CHAT_ID 829921481 //ID My Chat Telegramm
-#define TOKEN  //API Token
+#include <config.h>
 
 //int HTTP_PORT = 443
 char temperatureCString[6];
@@ -38,6 +33,7 @@ void setup() {
   }
   Serial.print("Connected, ");
   Serial.println(WiFi.localIP());
+  Serial.println(WiFi.macAddress());
 
   delay(10);
   
