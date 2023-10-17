@@ -9,4 +9,4 @@ home_temp_alarm = 8.00
 
 bath_temp_alarm = 90.00
 
-main_url = "http://"
+main_url = "http://192.168.0.122:5000"
