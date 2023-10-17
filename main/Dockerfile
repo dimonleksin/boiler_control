@@ -1,5 +1,4 @@
-FROM ubuntu
-RUN apt update && apt install -y python3 pip && mkdir /app
+FROM ubuntu:my
 WORKDIR /app
 COPY ./* ./
 RUN pip3 install -r requiroments.txt && chmod +x ./main.py
