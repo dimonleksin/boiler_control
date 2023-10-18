@@ -1,5 +1,5 @@
 #Telegramm API settings
-myToken = ""
+myToken = "TELEGRAMM_TOKEN"
 myTokenAlarm = ""
 myId = 829921481
 sheId = 1776929080

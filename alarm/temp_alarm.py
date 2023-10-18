@@ -5,8 +5,9 @@ import requests
 import json
 import alarm_settings
 import datetime
+import os
 
-bot = telebot.TeleBot(alarm_settings.myTokenAlarm)
+bot = telebot.TeleBot(os.getenv(alarm_settings.myTokenAlarm))
 while True:
     # Alarm, when temp boiler 
     try:
