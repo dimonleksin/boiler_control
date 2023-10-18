@@ -14,17 +14,19 @@ while True:
     try:
         resultGetTemp = requests.get(f"{alarm_settings.main_url}/gettemp")
         tempBoiler = resultGetTemp["tempBoiler"]
+        print(f"Geted temp {tempBoiler}")
         if tempBoiler > alarm_settings.boiler_temp_alar: #or resultGetTemp["tempHouse"] < alarm_settings.home_temp_alarm:            
             bot.send_message(alarm_settings.myId, f'Температура вышла за установленные лимиты, температура в доме: {str(resultGetTemp["tempHouse"])}, температура теплоносителя: {str(tempBoiler)}')
-
+            print("Sended alarm into telegramm")
             # print() Print alarm message in log
         # Alarm, when temp in the bath > limits
         # bath_temp = main.get_bath_temp()
         # if bath_temp > alarm_settings.bath_temp_alarm:
         #     bot.send_message(alarm_settings.myId, f'Температура в сауне превысила {bath_temp}')
         t = f"{datetime.datetime.now()} {tempBoiler}"
-        with open("temp_graf", "wa") as f:
+        with open("/mnt/temp_graf", "wa") as f:
             f.write(str(t))
+            print("Writed message into file temp_graf")
     except Exception as ex:
         print(ex)
     time.sleep(30)
