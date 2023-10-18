@@ -8,6 +8,7 @@ services:
     environment:
       - FLASK_APP=/app/main.py
       - FLASK_ENV=development
+    restart: always
   alarm:
     image: alarm:1
     container_name: alarm
@@ -17,4 +18,5 @@ services:
       - server
     volumes:
       - /srv/graf:/mnt
+    restart: always
     
