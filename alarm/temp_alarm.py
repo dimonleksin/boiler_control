@@ -1,7 +1,7 @@
 import telebot
 from telebot import types
 import requests
-# from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 import json
 import alarm_settings
 import datetime
@@ -13,10 +13,11 @@ bot = telebot.TeleBot(os.getenv(alarm_settings.myToken))
 while True:
     # Alarm, when temp boiler 
     try:
-        resultGetTemp = json.load(requests.get(f"{alarm_settings.main_url}/gettemp").text)
-        tempBoiler = resultGetTemp["tempBoiler"]
+        resultGetTemp = requests.get(f"{alarm_settings.main_url}/gettemp")
+        pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").string)
+        tempBoiler = pars["tempBoiler"]
         print(f"Geted temp {tempBoiler}")
-        if tempBoiler > alarm_settings.boiler_temp_alar: #or resultGetTemp["tempHouse"] < alarm_settings.home_temp_alarm:            
+        if int(round(float(tempBoiler))) > alarm_settings.boiler_temp_alar: #or resultGetTemp["tempHouse"] < alarm_settings.home_temp_alarm:            
             bot.send_message(alarm_settings.myId, f'Температура вышла за установленные лимиты, температура в доме: {str(resultGetTemp["tempHouse"])}, температура теплоносителя: {str(tempBoiler)}')
             print("Sended alarm into telegramm")
             # print() Print alarm message in log
