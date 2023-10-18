@@ -8,7 +8,7 @@ import datetime
 import os
 import time
 
-bot = telebot.TeleBot(os.getenv(alarm_settings.myTokenAlarm))
+bot = telebot.TeleBot(os.getenv(alarm_settings.myToken))
 while True:
     # Alarm, when temp boiler 
     try:
@@ -24,7 +24,7 @@ while True:
         # if bath_temp > alarm_settings.bath_temp_alarm:
         #     bot.send_message(alarm_settings.myId, f'Температура в сауне превысила {bath_temp}')
         t = f"{datetime.datetime.now()} {tempBoiler}"
-        with open("/mnt/temp_graf", "wa") as f:
+        with open("/mnt/temp_graf", "a") as f:
             f.write(str(t))
             print("Writed message into file temp_graf")
     except Exception as ex:
