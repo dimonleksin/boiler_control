@@ -6,7 +6,7 @@ import json
 import alarm_settings
 import datetime
 import os
-import time
+import time 
 import logging
 
 bot = telebot.TeleBot(os.getenv(alarm_settings.myToken))
@@ -15,10 +15,10 @@ while True:
     try:
         resultGetTemp = requests.get(f"{alarm_settings.main_url}/gettemp")
         tempBoiler = resultGetTemp["tempBoiler"]
-        logging.info(f"Geted temp {tempBoiler}")
+        print(f"Geted temp {tempBoiler}")
         if tempBoiler > alarm_settings.boiler_temp_alar: #or resultGetTemp["tempHouse"] < alarm_settings.home_temp_alarm:            
             bot.send_message(alarm_settings.myId, f'Температура вышла за установленные лимиты, температура в доме: {str(resultGetTemp["tempHouse"])}, температура теплоносителя: {str(tempBoiler)}')
-            logging.info("Sended alarm into telegramm")
+            print("Sended alarm into telegramm")
             # print() Print alarm message in log
         # Alarm, when temp in the bath > limits
         # bath_temp = main.get_bath_temp()
@@ -27,7 +27,7 @@ while True:
         t = f"{datetime.datetime.now()} {tempBoiler}"
         with open("/mnt/temp_graf", "a") as f:
             f.write(str(t))
-            logging.info(f"Writed message {t} into file temp_graf")
+            print(f"Writed message {t} into file temp_graf")
     except Exception as ex:
-        logging.info(ex)
+        print(ex)
     time.sleep(30)
