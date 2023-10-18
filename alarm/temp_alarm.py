@@ -17,8 +17,8 @@ while True:
         pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").string)
         tempBoiler = pars["tempBoiler"]
         print(f"Geted temp {tempBoiler}")
-        if int(round(float(tempBoiler))) > alarm_settings.boiler_temp_alar: #or resultGetTemp["tempHouse"] < alarm_settings.home_temp_alarm:            
-            bot.send_message(alarm_settings.myId, f'Температура вышла за установленные лимиты, температура в доме: {str(resultGetTemp["tempHouse"])}, температура теплоносителя: {str(tempBoiler)}')
+        if float(tempBoiler) > alarm_settings.boiler_temp_alar: #or resultGetTemp["tempHouse"] < alarm_settings.home_temp_alarm:            
+            bot.send_message(alarm_settings.myId, f'Температура вышла за установленные лимиты, температура теплоносителя: {tempBoiler}')
             print("Sended alarm into telegramm")
             # print() Print alarm message in log
         # Alarm, when temp in the bath > limits
