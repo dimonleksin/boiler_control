@@ -26,7 +26,7 @@ while True:
         # if bath_temp > alarm_settings.bath_temp_alarm:
         #     bot.send_message(alarm_settings.myId, f'Температура в сауне превысила {bath_temp}')
         t = f"{datetime.datetime.now()} {tempBoiler}"
-        with open("/mnt/temp_graf", "a") as f:
+        with open(f"/mnt/temp_graf{datetime.datetime.today()}", "a") as f:
             f.write(str(t))
             print(f"Writed message {t} into file temp_graf")
     except Exception as ex:
