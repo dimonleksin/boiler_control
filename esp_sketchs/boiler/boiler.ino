@@ -78,14 +78,14 @@ void getTemperature() {
 }
 void getboiler_1_status() {
   if(boiler_1_status){
-    stat = "{\"boiler_1_status\": \"Котел включен\"}";
+    stat = "{\"boiler_1_status\": \"Boiler is on\"}";
     Serial.print("Cтатус бойлера: ");
     Serial.print(boiler_1_status);
     Serial.println(stat);
     server.send(200, "application/json", stat);
   }
   else {
-    stat = "{\"boiler_1_status\": \"Котел выключен\"}";
+    stat = "{\"boiler_1_status\": \"Boiler is off\"}";
     Serial.print("Cтатус бойлера: ");
     Serial.print(boiler_1_status);
     Serial.println(stat);
@@ -95,14 +95,14 @@ void getboiler_1_status() {
 
 // void getboiler_2_status() {
 //   if(boiler_2_status){
-//     stat = "{\"boiler_2_status\": \"Котел включен\"}";
+//     stat = "{\"boiler_2_status\": \"Boiler is on\"}";
 //     Serial.print("Cтатус бойлера: ");
 //     Serial.print(boiler_2_status);
 //     Serial.println(stat);
 //     server.send(200, "application/json", stat);
 //   }
 //   else {
-//     stat = "{\"boiler_2_status\": \"Котел выключен\"}";
+//     stat = "{\"boiler_2_status\": \"Boiler is off\"}";
 //     Serial.print("Cтатус бойлера: ");
 //     Serial.print(boiler_2_status);
 //     Serial.println(stat);
@@ -119,7 +119,7 @@ void setboiler_1_statusOne() {
   }
   else {
     Serial.print(boiler_1_status);
-    server.send(200, "application/json", "{\"boiler_1_status\": \"Котел уже включен\"}");
+    server.send(200, "application/json", "{\"boiler_1_status\": \"Boiler is already on\"}");
   }
 }
 
@@ -132,7 +132,7 @@ void setboiler_1_statusOne() {
 //   }
 //   else {
 //     Serial.print(boiler_2_status);
-//     server.send(200, "application/json", "{\"boiler_2_status\": \"Котел уже включен\"}");
+//     server.send(200, "application/json", "{\"boiler_2_status\": \"Boiler is already on\"}");
 //   }
 // }
 
@@ -146,7 +146,7 @@ void setboiler_1_statusZero() {
   }
   else {
     Serial.print(boiler_1_status);
-    server.send(200, "application/json", "{\"boiler_1_status\": \"Котел уже выключен\"}");
+    server.send(200, "application/json", "{\"boiler_1_status\": \"Boiler is already off\"}");
   }
 }
 //Function for send Alarm to telegramm???

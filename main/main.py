@@ -36,7 +36,8 @@ def getTemp():
 
 @app.route('/get-status')
 def getBoilerStatus ():
-    res = requests.get(f'{main_settings.boiler_address}/status-1')
+    boiler_number = int(request.args.get('number'))
+    res = requests.get(f'{main_settings.boiler_address}/status-{boiler_number}')
     status = json.loads(BeautifulSoup(res.text, "html.parser").string)
     return status
 
@@ -48,44 +49,13 @@ def setBoilerStatus():
         args = int(request.args.get('status'))
         boiler_number = int(request.args.get('number'))
         print(args)
-        if args == 0 and boiler_number == 1:
-            res = requests.get(f'{main_settings.boiler_address}/set-1-status/0')
-            if res:
-                pars = json.loads(BeautifulSoup(res.text, "html.parser").string)
-                print(pars)
-                return pars
-            else:
-                return 'Запрос провалился'
-
-        elif args == 1 and boiler_number == 1:
-            res = requests.get(f'{main_settings.boiler_address}/set-1-status/1')
-            if res:
-                pars = json.loads(BeautifulSoup(res.text, "html.parser").string)
-                print(pars)
-                return pars
-            else:
-                return 'Запрос провалился'
-
-
-        if args == 0 and boiler_number == 2:
-            res = requests.get(f'{main_settings.boiler_address}/set-2-status/0')
-            if res:
-                pars = json.loads(BeautifulSoup(res.text, "html.parser").string)
-                print(pars)
-                return pars
-            else:
-                return 'Запрос провалился'
-
-        elif args == 1 and boiler_number == 2:
-            res = requests.get(f'{main_settings.boiler_address}/set-2-status/1')
-            if res:
-                pars = json.loads(BeautifulSoup(res.text, "html.parser").string)
-                print(pars)
-                return pars
-            else:
-                return 'Запрос провалился'
-
-        return args
+        res = requests.get(f'{main_settings.boiler_address}/set-{boiler_number}-status/{args}')
+        if res:
+            pars = json.loads(BeautifulSoup(res.text, "html.parser").string)
+            print(pars)
+            return pars
+        else:
+            return 'Запрос провалился'
         # return 'ok'
     except Exception as ex:
         return ex
