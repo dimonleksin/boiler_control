@@ -1,2 +1,4 @@
 esp_sketchs/boiler/config.h
 docker-compose.yaml
+*pycache*
+temp_graf2023-10-18

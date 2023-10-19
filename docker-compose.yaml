@@ -19,4 +19,9 @@ services:
     volumes:
       - /srv/graf:/mnt
     restart: always
+  analytics:
+    image: analytics:1
+    container_name: analytics
+    depends_on:
+      - server
     

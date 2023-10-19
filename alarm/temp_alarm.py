@@ -25,7 +25,7 @@ while True:
         # bath_temp = main.get_bath_temp()
         # if bath_temp > alarm_settings.bath_temp_alarm:
         #     bot.send_message(alarm_settings.myId, f'Температура в сауне превысила {bath_temp}')
-        t = f"{datetime.datetime.now()}:{tempBoiler} \n"
+        t = f"{datetime.datetime.now()}/{tempBoiler} \n"
         with open(f"/mnt/temp_graf{datetime.date.today()}", "a") as f:
             f.write(str(t))
             print(f"Writed message {t} into file temp_graf")

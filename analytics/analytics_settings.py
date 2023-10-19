@@ -1,0 +1,1 @@
+path_to_temp_data = "d:/IdeaProjects/boiler_control/analytics/temp_graf2023-10-18"
