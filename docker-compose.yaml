@@ -9,6 +9,7 @@ services:
       - FLASK_APP=/app/main.py
       - FLASK_ENV=development
     restart: always
+
   alarm:
     image: alarm:1.1
     container_name: alarm
@@ -16,15 +17,11 @@ services:
       - TELEGRAMM_TOKEN=${TELEGRAMM_TOKEN:-''}
     depends_on:
       - server
+      - postgre
     volumes:
       - /srv/graf:/mnt
     restart: always
-  # analytics:
-  #   image: analytics:1
-  #   container_name: analytics
-  #   depends_on:
-  #     - server
-      # restart: always
+
   grafana:
     image: grafana/grafana-oss
     container_name: grafana
@@ -33,6 +30,25 @@ services:
     restart: always
     volumes:
       - /stv/grafana:/var/lib/grafana
+    depends_on:
+      - postgre
+
+  postgre:
+    image: postgres:alpine3.18
+    container_name: postgre
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=lsd1lsd2
+    volumes:
+      - /srv/postgre/data:/var/lib/postgresql/data
+      - /srv/postgre/config/postgresql.conf.sample :/usr/local/share/postgresql/postgresql.conf.sample 
+
+  # analytics:
+  #   image: analytics:1
+  #   container_name: analytics
+  #   depends_on:
+  #     - server
+      # restart: always
 
   # victoria:
   #   image: victoriametrics/victoria-metrics
