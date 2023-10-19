@@ -1,7 +1,7 @@
 import analytics_settings as settings
 import matplotlib.pyplot as plt
 
-with open(, "r") as data:
+with open(settings.path_to_temp_data, "r") as data:
     d = data.read()
 new_d = d.split(sep='\n')
 
