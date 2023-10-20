@@ -58,4 +58,4 @@ services:
   #   volumes:
   #     - /srv/victoria:/victoria-metrics-data
 volumes:
-  - grafana-storage: {}
+  grafana-storage: {}
