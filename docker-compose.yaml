@@ -29,7 +29,7 @@ services:
       - 3000:3000
     restart: always
     volumes:
-      - /stv/grafana:/var/lib/grafana
+      - grafana:/var/lib/grafana
     depends_on:
       - postgre
 
@@ -41,7 +41,7 @@ services:
       - POSTGRES_PASSWORD=lsd1lsd2
     volumes:
       - /srv/postgre/data:/var/lib/postgresql/data
-      - /srv/postgre/config/postgresql.conf.sample :/usr/local/share/postgresql/postgresql.conf.sample 
+      # - /srv/postgre/config/postgresql.conf.sample :/usr/local/share/postgresql/postgresql.conf.sample 
 
   # analytics:
   #   image: analytics:1
@@ -57,3 +57,5 @@ services:
   #     - 8428:8428
   #   volumes:
   #     - /srv/victoria:/victoria-metrics-data
+volumes:
+  - grafana: {}

@@ -5,7 +5,9 @@ import json  # работа с json-файлами и json-строками
 import os  # работа с файловой системой
 import requests
 import settings
-import voice_rec as vr
+import text_to_voice as vr
+from bs4 import BeautifulSoup
+import json
 
 
 def record_and_recognize_audio(*args: tuple):
@@ -47,35 +49,35 @@ def record_and_recognize_audio(*args: tuple):
 def listen_comand(recognized_data):
     print("Слушаю Вас")
     comand = record_and_recognize_audio()
-    match comand:
-        case "Какая температура":
+    match comand.lower():
+        case "какая температура":
             resultGetTemp = requests.get(f"{settings.main_url}/gettemp")
             pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").string)
             tempBoiler = pars["tempBoiler"]    
             vr.play(f"Current temperature in boiler room {tempBoiler}")
-        case "Что с первым котлом":
+        case "что с первым котлом":
             result = requests.get(f"{settings.main_url}/get-status?number=1")
-            pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").string)
+            pars = json.loads(BeautifulSoup(result.text, "html.parser").string)
             vr.play(pars["boiler_1_status"])
-        case "Что со вторым котлом":
+        case "что со вторым котлом":
             result = requests.get(f"{settings.main_url}/get-status?number=2")
-            pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").string)
+            pars = json.loads(BeautifulSoup(result.text, "html.parser").string)
             vr.play(pars["boiler_2_status"])
-        case "Включи первый котел":
+        case "включи первый котел":
             result = requests.get(f"{settings.main_url}/set-status?number=1,status=1")
-            pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").string)
+            pars = json.loads(BeautifulSoup(result.text, "html.parser").string)
             vr.play(pars["boiler_1_status"])
-        case "Включи второй котел":
+        case "включи второй котел":
             result = requests.get(f"{settings.main_url}/set-status?number=2,status=1")
-            pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").string)
+            pars = json.loads(BeautifulSoup(result.text, "html.parser").string)
             vr.play(pars["boiler_2_status"])
-        case "Выключи первый котел":
+        case "выключи первый котел":
             result = requests.get(f"{settings.main_url}/set-status?number=1,status=0")
-            pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").string)
+            pars = json.loads(BeautifulSoup(result.text, "html.parser").string)
             vr.play(pars["boiler_1_status"])
-        case "Выключи второй котел":
+        case "выключи второй котел":
             result = requests.get(f"{settings.main_url}/set-status?number=2,status=0")
-            pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").string)
+            pars = json.loads(BeautifulSoup(result.text, "html.parser").string)
             vr.play(pars["boiler_2_status"])
     return
 
@@ -92,7 +94,7 @@ if __name__ == "__main__":
         os.remove("microphone-results.wav")
         if voice_input == 'дом':
             print(voice_input)
-            vr.play("listening for you")
+            vr.play("Слушаю")
             listen_comand(voice_input)
         print(voice_input)
         
