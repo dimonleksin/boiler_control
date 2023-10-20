@@ -37,6 +37,8 @@ services:
     image: postgres:alpine3.18
     container_name: postgre
     restart: always
+    ports:
+      - 5432:5432
     environment:
       - POSTGRES_PASSWORD=lsd1lsd2
     volumes:
