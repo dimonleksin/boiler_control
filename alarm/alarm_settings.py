@@ -15,4 +15,5 @@ pg_url = "192.168.0.122"
 pg_port = 5432
 pg_user = "postgres"
 pg_passwd = "lsd1lsd2"
-pg_db_name = "graf"
+pg_db_name = "temperature"
+pg_table_name = "from_alarm"
