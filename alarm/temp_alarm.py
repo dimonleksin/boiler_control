@@ -13,17 +13,19 @@ import psycopg2
 
 def write_to_postgre(data):
     connect_string = f"postgresql://{settings.pg_user}:{settings.pg_passwd}@{settings.pg_url}:{settings.pg_port}/{settings.pg_db_name}"
-    # print(connect_string)
+    print(connect_string)
+    t = f"{datetime.datetime.now()}"
     connection = psycopg2.connect(connect_string)
+    connection.autocommit = True
     with connection.cursor() as cursor:
         cursor.execute(
-            f"INSERT INTO {settings.pg_table_name}(temperature, timestp) VALUES({data}, CURRENT_TIMESTAMP)"
+            f"INSERT INTO {settings.pg_table_name}(temperature, timestp) VALUES({data}, now())"
         )
     return
 
 
 
-# bot = telebot.TeleBot(os.getenv(settings.myToken))
+bot = telebot.TeleBot(os.getenv(settings.myToken))
 while True:
     # Alarm, when temp boiler 
     try:
@@ -31,9 +33,9 @@ while True:
         pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").string)
         tempBoiler = pars["tempBoiler"]
         print(f"Geted temp {tempBoiler}")
-        # if float(tempBoiler) > settings.boiler_temp_alar: #or resultGetTemp["tempHouse"] < settings.home_temp_alarm:            
-        #     bot.send_message(settings.myId, f'Температура вышла за установленные лимиты, температура теплоносителя: {tempBoiler}')
-        #     print("Sended alarm into telegramm")
+        if float(tempBoiler) > settings.boiler_temp_alar: #or resultGetTemp["tempHouse"] < settings.home_temp_alarm:            
+            bot.send_message(settings.myId, f'Температура вышла за установленные лимиты, температура теплоносителя: {tempBoiler}')
+            print("Sended alarm into telegramm")
 
         write_to_postgre(tempBoiler)
 

@@ -39,7 +39,8 @@ services:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=lsd1lsd2
-      - TZ="Europe/Samara"
+      - TZ="GMT+4"
+      - PGTZ="GMT+4"
       # - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - /srv/postgre/data:/var/lib/postgresql/data
