@@ -10,3 +10,9 @@ home_temp_alarm = 8.00
 bath_temp_alarm = 90.00
 
 main_url = "http://192.168.0.122:5000"
+
+pg_url = "192.168.0.122"
+pg_port = 5432
+pg_user = "postgres"
+pg_passwd = "lsd1lsd2"
+pg_db_name = "graf"
