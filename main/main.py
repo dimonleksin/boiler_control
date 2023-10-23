@@ -14,6 +14,16 @@ from bs4 import BeautifulSoup
 import json
 import main_settings
 from flask import Flask, request
+# import logging
+
+# root = logging.getLogger() 
+# root.setLevel(logging.INFO) 
+ 
+# handler = logging.StreamHandler(sys.stdout) 
+# handler.setLevel(logging.DEBUG) 
+# formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(funcName)s - %(message)s') 
+# handler.setFormatter(formatter) 
+# root.addHandler(handler)
 
 app = Flask(__name__)
 

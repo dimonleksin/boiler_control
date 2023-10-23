@@ -63,8 +63,8 @@ void setup() {
 }
 void getTemperature() {
   DS18B20.requestTemperatures();
-  Serial.println(DS18B20.getTempCByIndex(0));
-  Serial.println(DS18B20.getTempCByIndex(1));
+  // Serial.println(DS18B20.getTempCByIndex(0));
+  // Serial.println(DS18B20.getTempCByIndex(1));
   json = "{\"tempBoiler\": \"";
   json += DS18B20.getTempCByIndex(0);
   json += "\", ";
@@ -79,16 +79,16 @@ void getTemperature() {
 void getboiler_1_status() {
   if(boiler_1_status){
     stat = "{\"boiler_1_status\": \"Boiler is on\"}";
-    Serial.print("Cтатус бойлера: ");
-    Serial.print(boiler_1_status);
-    Serial.println(stat);
+    // Serial.print("Cтатус бойлера: ");
+    // Serial.print(boiler_1_status);
+    // Serial.println(stat);
     server.send(200, "application/json", stat);
   }
   else {
     stat = "{\"boiler_1_status\": \"Boiler is off\"}";
-    Serial.print("Cтатус бойлера: ");
-    Serial.print(boiler_1_status);
-    Serial.println(stat);
+    // Serial.print("Cтатус бойлера: ");
+    // Serial.print(boiler_1_status);
+    // Serial.println(stat);
     server.send(200, "application/json", stat);
   }
 }
@@ -114,11 +114,11 @@ void setboiler_1_statusOne() {
   if (!boiler_1_status) {
     boiler_1_status = HIGH;
     digitalWrite(4, boiler_1_status);
-    Serial.println("Статус котла изменен на Вкл");
+    // Serial.println("Статус котла изменен на Вкл");
     getboiler_1_status();
   }
   else {
-    Serial.print(boiler_1_status);
+    // Serial.print(boiler_1_status);
     server.send(200, "application/json", "{\"boiler_1_status\": \"Boiler is already on\"}");
   }
 }

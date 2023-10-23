@@ -10,17 +10,29 @@ import time
 import logging
 import psycopg2
 
+root = logging.getLogger() 
+root.setLevel(logging.INFO) 
+ 
+handler = logging.StreamHandler(sys.stdout) 
+handler.setLevel(logging.DEBUG) 
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(funcName)s - %(message)s') 
+handler.setFormatter(formatter) 
+root.addHandler(handler)
 
-def write_to_postgre(data):
+def write_to_postgre(data: str) -> None:
     connect_string = f"postgresql://{settings.pg_user}:{settings.pg_passwd}@{settings.pg_url}:{settings.pg_port}/{settings.pg_db_name}"
-    print(connect_string)
-    t = f"{datetime.datetime.now()}"
-    connection = psycopg2.connect(connect_string)
-    connection.autocommit = True
-    with connection.cursor() as cursor:
-        cursor.execute(
-            f"INSERT INTO {settings.pg_table_name}(temperature, timestp) VALUES({data}, now())"
-        )
+    logging.info(connect_string)
+
+    try:
+        connection = psycopg2.connect(connect_string)
+        logging.info(f"Successful connected to data base {settings.pg_db_name}")
+        connection.autocommit = True
+        with connection.cursor() as cursor:
+            cursor.execute(
+                f"INSERT INTO {settings.pg_table_name}(temperature, timestp) VALUES({data}, now())"
+            )
+    except Exception as ex:
+        logging.error(f"Error: {ex}")
     return
 
 
@@ -32,10 +44,10 @@ while True:
         resultGetTemp = requests.get(f"{settings.main_url}/gettemp")
         pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").string)
         tempBoiler = pars["tempBoiler"]
-        print(f"Geted temp {tempBoiler}")
+        logging.info(f"Geted temp {tempBoiler}")
         if float(tempBoiler) > settings.boiler_temp_alar: #or resultGetTemp["tempHouse"] < settings.home_temp_alarm:            
             bot.send_message(settings.myId, f'Температура вышла за установленные лимиты, температура теплоносителя: {tempBoiler}')
-            print("Sended alarm into telegramm")
+            logging.info("Sended alarm into telegramm")
 
         write_to_postgre(tempBoiler)
 
@@ -51,5 +63,5 @@ while True:
         #     f.write(str(t))
         #     print(f"Writed message {t} into file temp_graf")
     except Exception as ex:
-        print(ex)
+        logging.error(ex)
     time.sleep(30)
