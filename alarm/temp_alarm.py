@@ -12,7 +12,7 @@ import logging
 import psycopg2
 
 root = logging.getLogger() 
-root.setLevel(logging.DEBUG) 
+root.setLevel(logging.INFO) 
  
 handler = logging.StreamHandler(sys.stdout) 
 handler.setLevel(logging.DEBUG) 
@@ -62,8 +62,8 @@ while True:
         tempBoiler = pars["tempBoiler"]
         tempHouse = pars["tempHouse"]
 
-        logging.info(f"Geted temp {tempBoiler}")
-        write_to_postgre(tempBoiler)
+        logging.info(f"Geted temp boiler: {tempBoiler}, house: {tempHouse}")
+        write_to_postgre(tempBoiler, tempHouse)
         if float(tempBoiler) > settings.boiler_temp_alar:# or float(tempHouse) < settings.home_temp_alarm:            
             bot.send_message(settings.myId, f'Температура вышла за установленные лимиты, температура теплоносителя: {tempBoiler}')
             logging.info("Sended alarm into telegramm")
