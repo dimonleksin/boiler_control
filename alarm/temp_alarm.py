@@ -19,18 +19,24 @@ formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(funcName)s - %(me
 handler.setFormatter(formatter) 
 root.addHandler(handler)
 
-def write_to_postgre(data: str) -> None:
+def write_to_postgre(
+    home: str,
+    boiler: str='28.32'
+) -> None:
     connect_string = f"postgresql://{settings.pg_user}:{settings.pg_passwd}@{settings.pg_url}:{settings.pg_port}/{settings.pg_db_name}"
-    logging.info(connect_string)
+    # logging.info(connect_string)
 
     try:
         connection = psycopg2.connect(connect_string)
         logging.info(f"Successful connected to data base {settings.pg_db_name}")
         connection.autocommit = True
+        request = f"INSERT INTO {settings.pg_table_name}(temperature,sensor_n,timestp) VALUES({home}, home, now());" \
+                  f"INSERT INTO {settings.pg_table_name}(temperature,sensor_n,,imestp) VALUES({boiler}, boiler, now());"
         with connection.cursor() as cursor:
             cursor.execute(
-                f"INSERT INTO {settings.pg_table_name}(temperature, timestp) VALUES({data}, now())"
+                request
             )
+            logging.info("")
     except Exception as ex:
         logging.error(f"Error: {ex}")
     return
@@ -44,8 +50,10 @@ while True:
         resultGetTemp = requests.get(f"{settings.main_url}/gettemp")
         pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").string)
         tempBoiler = pars["tempBoiler"]
+        tempHouse = resultGetTemp["tempHouse"]
+
         logging.info(f"Geted temp {tempBoiler}")
-        if float(tempBoiler) > settings.boiler_temp_alar: #or resultGetTemp["tempHouse"] < settings.home_temp_alarm:            
+        if float(tempBoiler) > settings.boiler_temp_alar or float(tempHouse) < settings.home_temp_alarm:            
             bot.send_message(settings.myId, f'Температура вышла за установленные лимиты, температура теплоносителя: {tempBoiler}')
             logging.info("Sended alarm into telegramm")
 
