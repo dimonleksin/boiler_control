@@ -43,9 +43,9 @@ def write_to_postgre(
 
 
 try:
-    token = os.getenv(settings.myToken)
+    token = os.getenv(str(settings.myToken))
     bot = telebot.TeleBot(token)
-    logging.info(f"Successfuly received token bot{token}")
+    logging.info(f"Successfuly received token bot")
 except Exception as ex:
     logging.error("Token not found")
 
@@ -64,7 +64,7 @@ while True:
 
         logging.info(f"Geted temp {tempBoiler}")
         write_to_postgre(tempBoiler)
-        if float(tempBoiler) > settings.boiler_temp_alar or float(tempHouse) < settings.home_temp_alarm:            
+        if float(tempBoiler) > settings.boiler_temp_alar:# or float(tempHouse) < settings.home_temp_alarm:            
             bot.send_message(settings.myId, f'Температура вышла за установленные лимиты, температура теплоносителя: {tempBoiler}')
             logging.info("Sended alarm into telegramm")
 
