@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import json
 import alarm_settings as settings
 import datetime
-import os
+import os, sys
 import time 
 import logging
 import psycopg2
