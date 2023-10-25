@@ -12,7 +12,7 @@ import logging
 import psycopg2
 
 root = logging.getLogger() 
-root.setLevel(logging.INFO) 
+root.setLevel(logging.DEBUG) 
  
 handler = logging.StreamHandler(sys.stdout) 
 handler.setLevel(logging.DEBUG) 
