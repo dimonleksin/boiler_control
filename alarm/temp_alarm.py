@@ -58,6 +58,7 @@ while True:
             logging.info("Succesfuly received from main server")
         except Exception as ex:
             logging.error("Error, when send request to main server")
+            bot.send_message("Не смог связаться с сервером ")
         
         tempBoiler = pars["tempBoiler"]
         tempHouse = pars["tempHouse"]
