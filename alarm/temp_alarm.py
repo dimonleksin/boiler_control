@@ -31,15 +31,14 @@ def write_to_postgre(
         connection = psycopg2.connect(connect_string)
         logging.info(f"Successful connected to data base {settings.pg_db_name}")
         connection.autocommit = True
-        request = f"INSERT INTO {settings.pg_table_name}(temperature,sensor_n,timestp) VALUES({home}, home, now());" \
-                  f"INSERT INTO {settings.pg_table_name}(temperature,sensor_n,,imestp) VALUES({boiler}, boiler, now());"
+        request = f"INSERT INTO {settings.pg_table_name}(temperature,sensor_n,timestp) VALUES({home}, home, now()); INSERT INTO {settings.pg_table_name}(temperature,sensor_n,,imestp) VALUES({boiler}, boiler, now());"
         with connection.cursor() as cursor:
             cursor.execute(
                 request
             )
             logging.info("")
     except Exception as ex:
-        logging.error(f"Error: {ex}")
+        logging.error(f"Error, when send request to SQL: {ex}")
     return
 
 
@@ -48,10 +47,14 @@ bot = telebot.TeleBot(os.getenv(settings.myToken))
 while True:
     # Alarm, when temp boiler 
     try:
-        resultGetTemp = requests.get(f"{settings.main_url}/gettemp")
-        pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").string)
+        try:
+            resultGetTemp = requests.get(f"{settings.main_url}/gettemp")
+            pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").text)
+            logging.info("Succesfuly received from main server")
+        except Exception as ex:
+            logging.error("Error, when send request to main server")
         tempBoiler = pars["tempBoiler"]
-        tempHouse = resultGetTemp["tempHouse"]
+        tempHouse = pars["tempHouse"]
 
         logging.info(f"Geted temp {tempBoiler}")
         if float(tempBoiler) > settings.boiler_temp_alar or float(tempHouse) < settings.home_temp_alarm:            
@@ -72,5 +75,5 @@ while True:
         #     f.write(str(t))
         #     print(f"Writed message {t} into file temp_graf")
     except Exception as ex:
-        logging.error(ex)
+        logging.error(f"Error: {ex}")
     time.sleep(30)
