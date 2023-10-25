@@ -31,7 +31,7 @@ def write_to_postgre(
         connection = psycopg2.connect(connect_string)
         logging.info(f"Successful connected to data base {settings.pg_db_name}")
         connection.autocommit = True
-        request = f"INSERT INTO {settings.pg_table_name}(temperature,sensor_n,timestp) VALUES({home}, home, now()); INSERT INTO {settings.pg_table_name}(temperature,sensor_n,,imestp) VALUES({boiler}, boiler, now());"
+        request = f"INSERT INTO {settings.pg_table_name}(temperature,sensor_n,timestp) VALUES({home}, 'home', now()); INSERT INTO {settings.pg_table_name}(temperature,sensor_n,timestp) VALUES({boiler}, 'boiler', now());"
         with connection.cursor() as cursor:
             cursor.execute(
                 request
@@ -42,8 +42,13 @@ def write_to_postgre(
     return
 
 
+try:
+    token = os.getenv(settings.myToken)
+    bot = telebot.TeleBot(token)
+    logging.info(f"Successfuly received token bot{token}")
+except Exception as ex:
+    logging.error("Token not found")
 
-bot = telebot.TeleBot(os.getenv(settings.myToken))
 while True:
     # Alarm, when temp boiler 
     try:
@@ -53,16 +58,15 @@ while True:
             logging.info("Succesfuly received from main server")
         except Exception as ex:
             logging.error("Error, when send request to main server")
+        
         tempBoiler = pars["tempBoiler"]
         tempHouse = pars["tempHouse"]
 
         logging.info(f"Geted temp {tempBoiler}")
+        write_to_postgre(tempBoiler)
         if float(tempBoiler) > settings.boiler_temp_alar or float(tempHouse) < settings.home_temp_alarm:            
             bot.send_message(settings.myId, f'Температура вышла за установленные лимиты, температура теплоносителя: {tempBoiler}')
             logging.info("Sended alarm into telegramm")
-
-        write_to_postgre(tempBoiler)
-
 
 
             # print() Print alarm message in log
