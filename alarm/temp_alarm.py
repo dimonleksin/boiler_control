@@ -70,11 +70,7 @@ while True:
     except Exception as ex:
         logging.error(f"Error, when send request to main server. Err: {ex}")
         bot.send_message(settings.myId, "Не смог связаться с сервером ")
-        continue
-    
-    
-    
-    
+
         # print() Print alarm message in log
     # Alarm, when temp in the bath > limits
     # bath_temp = main.get_bath_temp()
@@ -84,4 +80,5 @@ while True:
     # with open(f"/mnt/temp_graf{datetime.date.today()}", "a") as f:
     #     f.write(str(t))
     #     print(f"Writed message {t} into file temp_graf")
+    
     time.sleep(30)
