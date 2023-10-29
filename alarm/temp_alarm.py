@@ -59,6 +59,7 @@ while True:
         except Exception as ex:
             logging.error("Error, when send request to main server")
             bot.send_message(settings.myId, "Не смог связаться с сервером ")
+            continue
         
         tempBoiler = pars["tempBoiler"]
         tempHouse = pars["tempHouse"]
