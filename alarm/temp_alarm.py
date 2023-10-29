@@ -36,7 +36,7 @@ def write_to_postgre(
             cursor.execute(
                 request
             )
-            logging.info("")
+            logging.info("Successfuly insert into table")
     except Exception as ex:
         logging.error(f"Error, when send request to SQL: {ex}")
     return
@@ -52,34 +52,36 @@ except Exception as ex:
 while True:
     # Alarm, when temp boiler 
     try:
-        try:
-            resultGetTemp = requests.get(f"{settings.main_url}/gettemp")
-            pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").text)
-            logging.info("Succesfuly received from main server")
-        except Exception as ex:
-            logging.error("Error, when send request to main server")
-            bot.send_message(settings.myId, "Не смог связаться с сервером ")
-            continue
-        
+        resultGetTemp = requests.get(f"{settings.main_url}/gettemp")
+        pars = json.loads(BeautifulSoup(resultGetTemp.text, "html.parser").text)
+
+        logging.info("Succesfuly received from main server")
+
         tempBoiler = pars["tempBoiler"]
         tempHouse = pars["tempHouse"]
-
         logging.info(f"Geted temp boiler: {tempBoiler}, house: {tempHouse}")
-        write_to_postgre(tempBoiler, tempHouse)
+
         if float(tempBoiler) > settings.boiler_temp_alar:# or float(tempHouse) < settings.home_temp_alarm:            
             bot.send_message(settings.myId, f'Температура вышла за установленные лимиты, температура теплоносителя: {tempBoiler}')
             logging.info("Sended alarm into telegramm")
+        
+        write_to_postgre(tempBoiler, tempHouse)
 
-
-            # print() Print alarm message in log
-        # Alarm, when temp in the bath > limits
-        # bath_temp = main.get_bath_temp()
-        # if bath_temp > settings.bath_temp_alarm:
-        #     bot.send_message(settings.myId, f'Температура в сауне превысила {bath_temp}')
-        # t = f"{datetime.datetime.now()}/{tempBoiler} \n"
-        # with open(f"/mnt/temp_graf{datetime.date.today()}", "a") as f:
-        #     f.write(str(t))
-        #     print(f"Writed message {t} into file temp_graf")
     except Exception as ex:
-        logging.error(f"Error: {ex}")
+        logging.error(f"Error, when send request to main server. Err: {ex}")
+        bot.send_message(settings.myId, "Не смог связаться с сервером ")
+        continue
+    
+    
+    
+    
+        # print() Print alarm message in log
+    # Alarm, when temp in the bath > limits
+    # bath_temp = main.get_bath_temp()
+    # if bath_temp > settings.bath_temp_alarm:
+    #     bot.send_message(settings.myId, f'Температура в сауне превысила {bath_temp}')
+    # t = f"{datetime.datetime.now()}/{tempBoiler} \n"
+    # with open(f"/mnt/temp_graf{datetime.date.today()}", "a") as f:
+    #     f.write(str(t))
+    #     print(f"Writed message {t} into file temp_graf")
     time.sleep(30)

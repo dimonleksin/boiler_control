@@ -14,7 +14,7 @@ services:
     image: alarm:1.1
     container_name: alarm
     environment:
-      - TELEGRAMM_TOKEN=${TELEGRAMM_TOKEN:-''}
+      - TELEGRAMM_TOKEN=${TELEGRAMM_TOKEN}
     depends_on:
       - server
       - postgre
@@ -46,20 +46,6 @@ services:
       - /srv/postgre/data:/var/lib/postgresql/data
       # - /srv/postgre/config/postgresql.conf.sample :/usr/local/share/postgresql/postgresql.conf.sample 
 
-  # analytics:
-  #   image: analytics:1
-  #   container_name: analytics
-  #   depends_on:
-  #     - server
-      # restart: always
-
-  # victoria:
-  #   image: victoriametrics/victoria-metrics
-  #   container_name: victoria
-  #   ports:
-  #     - 8428:8428
-  #   volumes:
-  #     - /srv/victoria:/victoria-metrics-data
 volumes:
   grafana-storage: {}
   # postgre: {}
