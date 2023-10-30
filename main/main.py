@@ -13,7 +13,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import main_settings
-from flask import Flask, request
+from flask import Flask, request, Responce
 # import logging
 
 # root = logging.getLogger() 
@@ -27,11 +27,9 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-# bot = telebot.TeleBot(main_settings.myToken)
-
 @app.route('/')
 def index():
-    return 'Тестовый запуск удался'
+    return 'Это бетта версия моего приложения умного дома'
 
 @app.route('/gettemp')
 def getTemp():
@@ -40,9 +38,9 @@ def getTemp():
         result = BeautifulSoup(temp.text, "html.parser").string
         json_pars = json.loads(result)
         #print(json_pars)
-        return json_pars
+        return Responce(json_pars, status=200)
     except Exception as ex:
-        return ex
+        return Responce(ex, status=501)
 
 @app.route('/get-status')
 def getBoilerStatus ():
@@ -63,9 +61,9 @@ def setBoilerStatus():
         if res:
             pars = json.loads(BeautifulSoup(res.text, "html.parser").string)
             print(pars)
-            return pars
+            return Responce(pars, status=200)
         else:
-            return 'Запрос провалился'
+            return Responce('Запрос провалился', status=501)
         # return 'ok'
     except Exception as ex:
         return ex
@@ -75,7 +73,7 @@ def setBoilerStatus():
 def get_bath_temp():
     r = requests.get(f'{main_settings.bath_address}/get_bath_temp')
     temp = BeautifulSoup(r.text, 'html.parser').string
-    return
+    return Responce("", status=404)
 
 # Get current state switch in the bath
 @app.route('/set_switch_bath')
