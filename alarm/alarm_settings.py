@@ -1,7 +1,7 @@
 #Telegramm API settings
 myToken = "TELEGRAMM_TOKEN"
 myTokenAlarm = ""
-myId = 829921481
+myId =  829921481
 sheId = 1776929080
 
 boiler_temp_alar = 30.00
