@@ -29,7 +29,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', utc_dt=datetime.datetime.utcnow())
+    return render_template('index.html', utc_dt="Это бетта версия моего приложения умного дома")
     # return 'Это бетта версия моего приложения умного дома'
 
 @app.route('/gettemp')
