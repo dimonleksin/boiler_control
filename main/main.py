@@ -13,7 +13,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import main_settings
-from flask import Flask, request, Responce
+from flask import Flask, request, Responce, render_template
 # import logging
 
 # root = logging.getLogger() 
