@@ -9,8 +9,8 @@
 #define WIFI_SSID "Tele2_722732"
 #define WIFI_PASS "02284560"
 #define ONE_WIRE_BUS 0 // Пин подключения OneWire шины, 0 (D3)
-#define CHAT_ID 829921481 //ID My Chat Telegramm
-#define TOKEN  //API Token
+// #define CHAT_ID 829921481 //ID My Chat Telegramm
+// #define TOKEN  //API Token
 
 //int HTTP_PORT = 443
 char temperatureCString[6];
