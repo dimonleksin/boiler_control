@@ -6,9 +6,27 @@
     <title>{{ title }}</title>
 </head>
 <body>
+
     <div class="menu">
         {{ menu }}
     </div>
+
+    {% if form %}
+    <form action="" method="post">
+        <p>
+	        <label for="username">Первый котел</label>
+	        <input type="checkbox" name="boiler_1" {{ boiler1 }}>
+	    </p>
+	    <p>
+	        <label for="password">Второй котел</label>
+	        <input type="checkbox" name="boiler_2">
+	    </p>
+	    <p>
+	        <input type="submit">
+	    </p>
+    </form>
+    {% endif %}
+
     <div>
         {{ content }}
     </div>

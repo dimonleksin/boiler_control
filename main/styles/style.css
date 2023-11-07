@@ -1,10 +1,10 @@
 .body{
-    background-color: rgb(123, 126, 129);
+    background-color: slategray;
 }
 
 .menu{
     position: sticky;
     top: 30px;
     left: 30px;
-    border-bottom: 1px, #202020;
-  }    
+    border-bottom: 1px, #000;
+}    

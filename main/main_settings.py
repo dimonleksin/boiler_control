@@ -10,5 +10,6 @@ boiler_address = 'http://192.168.0.116'
 
 bath_address = 'http://'
 
-menu = '<p></p><a href="/gettemp">Текущая температура в доме</a></p>'
+menu = '<p><a href="/gettemp">Текущая температура в доме</a></p>' \
+    '<p><a href="/status">Статус котла</a></p>'
 css = '<link rel="stylesheet" href="./styles/style.css">'
