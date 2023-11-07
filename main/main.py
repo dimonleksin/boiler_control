@@ -13,7 +13,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import main_settings
-from flask import Flask, request, render_template, Responce
+from flask import Flask, request, render_template
 # import logging
 
 # root = logging.getLogger() 
@@ -39,16 +39,16 @@ def getTemp():
         result = BeautifulSoup(temp.text, "html.parser").string
         json_pars = json.loads(result)
         #print(json_pars)
-        return Responce(json_pars, status=200)
+        return json_pars, 200
     except Exception as ex:
-        return Responce(ex, status=501)
+        return ex, 501
 
 @app.route('/get-status')
 def getBoilerStatus ():
     boiler_number = int(request.args.get('number'))
     res = requests.get(f'{main_settings.boiler_address}/status-{boiler_number}')
     status = json.loads(BeautifulSoup(res.text, "html.parser").string)
-    return status
+    return status, 200
 
 # For on boiler send args: ?status={1|0},number={boiler number}
 
@@ -64,25 +64,25 @@ def setBoilerStatus():
             print(pars)
             return pars, 200
         else:
-            return Responce('Запрос провалился', status=501)
+            return 'Запрос провалился', 501
         # return 'ok'
     except Exception as ex:
-        return ex
+        return ex, 415
 
 # Get current temp at bath
 @app.route('/get_bath_temp')
 def get_bath_temp():
-    r = requests.get(f'{main_settings.bath_address}/get_bath_temp')
-    temp = BeautifulSoup(r.text, 'html.parser').string
-    return Responce(status=404)
+    # r = requests.get(f'{main_settings.bath_address}/get_bath_temp')
+    # temp = BeautifulSoup(r.text, 'html.parser').string
+    return "", 404
 
 # Get current state switch in the bath
 @app.route('/set_switch_bath')
 def set_switch_bath():
-    pass
+    return "", 404
 
 
 # Get status of all device
 @app.route('/get_all_stat')
 def get_all_stat():
-    pass
+    return "", 404
