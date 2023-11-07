@@ -13,7 +13,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import main_settings
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, Responce
 # import logging
 
 # root = logging.getLogger() 
@@ -41,7 +41,7 @@ def getTemp():
         #print(json_pars)
         return Responce(json_pars, status=200)
     except Exception as ex:
-        return ex, 501
+        return Responce(ex, status=501)
 
 @app.route('/get-status')
 def getBoilerStatus ():
@@ -74,7 +74,7 @@ def setBoilerStatus():
 def get_bath_temp():
     r = requests.get(f'{main_settings.bath_address}/get_bath_temp')
     temp = BeautifulSoup(r.text, 'html.parser').string
-    return 404
+    return Responce(status=404)
 
 # Get current state switch in the bath
 @app.route('/set_switch_bath')
