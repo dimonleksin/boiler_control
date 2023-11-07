@@ -29,7 +29,15 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', utc_dt="Это бетта версия моего приложения умного дома")
+    title = "Index page"
+    content = "Это бетта версия моего приложения умного дома"
+    return render_template(
+        'index.html',
+        utc_dt = content,
+        title = title,
+        menu = main_settings.menu,
+        style = main_settings.css
+    )
     # return 'Это бетта версия моего приложения умного дома'
 
 @app.route('/gettemp')
