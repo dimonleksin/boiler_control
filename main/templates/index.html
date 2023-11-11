@@ -14,19 +14,23 @@
     {% if form %}
     <form action="" method="post">
         <p>
-	        <label for="username">Первый котел</label>
+	        <label for="boiler_1">Первый котел</label>
 	        <input type="checkbox" name="boiler_1" {{ boiler1 }}>
 	    </p>
 	    <p>
-	        <label for="password">Второй котел</label>
-	        <input type="checkbox" name="boiler_2">
+	        <label for="boiler_2">Второй котел</label>
+	        <input type="checkbox" name="boiler_2" {{ boiler2 }}>
 	    </p>
 	    <p>
 	        <input type="submit">
 	    </p>
     </form>
     {% endif %}
-
+    {% if temperature %}
+    <div class="temperature">
+        {{ temp }}
+    </div>
+    {% endif %}
     <div>
         {{ content }}
     </div>

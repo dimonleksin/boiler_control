@@ -10,10 +10,10 @@
 # import time
 
 import requests
-from bs4 import BeautifulSoup
 import json
 import main_settings
 from flask import Flask, request, render_template
+import kafka
 # import logging
 
 # root = logging.getLogger() 
@@ -43,11 +43,23 @@ def index():
 @app.route('/gettemp')
 def getTemp():
     try:
+        result_temp
         temp = requests.get(f'{main_settings.boiler_address}/temp')
         result = BeautifulSoup(temp.text, "html.parser").string
         json_pars = json.loads(result)
-        #print(json_pars)
-        return json_pars, 200
+
+        for k, v in json_pars.items():
+            result_temp += f"<p>Temperature in {k} = {v}</p>"
+
+        return render_template(
+            'index.html',
+            temperature = True,
+            temp = resul_temp,
+            utc_dt = content,
+            title = title,
+            menu = main_settings.menu,
+            style = main_settings.css,
+        ), 200
     except Exception as ex:
         return ex, 501
 
@@ -60,16 +72,33 @@ def getBoilerStatus ():
     res1 = requests.get(f'{main_settings.boiler_address}/status-1')
     status_boiler_1 = json.loads(BeautifulSoup(res1.text, "html.parser").string)
 
-    res1 = requests.get(f'{main_settings.boiler_address}/status-1')
+    res1 = requests.get(f'{main_settings.boiler_address}/status-2')
     status_boiler_2 = json.loads(BeautifulSoup(res1.text, "html.parser").string)
+
+    kafka.KafkaConsumer()
 
     if status_boiler_1["boiler_1_status"] == "Boiler is on":
         boiler1 = "checked"
+    else:
+        boiler1 = ""
+
+    if status_boiler_2["boiler_2_status"] == "Boiler is on":
+        boiler2 = "checked"
+    else:
+        boiler2 = ""
+
+    # Geting form 
+    if request.method == "POST":
+        boiler1 = bool(request.form.get("boiler_1", False))
+        boiler2 = bool(request.form.get("boiler_2", False))
+
+        content = "Boilers status changed."
 
     content = ''
     return render_template(
         'index.html',
         boiler1 = boiler1,
+        boiler2 = boiler2,
         utc_dt = content,
         title = title,
         menu = main_settings.menu,
