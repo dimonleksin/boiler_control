@@ -13,3 +13,4 @@ bath_address = 'http://'
 menu = '<p><a href="/gettemp">Текущая температура в доме</a></p>' \
     '<p><a href="/status">Статус котла</a></p>'
 css = '<link rel="stylesheet" href="./styles/style.css">'
+bootstrap_servers = "kafka:9092"

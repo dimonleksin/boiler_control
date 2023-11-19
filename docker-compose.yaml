@@ -55,7 +55,7 @@ services:
     environment:
       KAFKA_MQTT_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:9092
       KAFKA_MQTT_CONFLUENT_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_MQTT_TOPIC_REGEX_LIST: temperature:.*temperature
+      KAFKA_MQTT_TOPIC_REGEX_LIST: temperature.from.boiler.room:boilerroom/temperature, temperature.from.outside:temperature/outside
       KAFKA_MQTT_PRODUCER_SECURITY_PROTOCOL: PLAINTEXT
 
   kafka:

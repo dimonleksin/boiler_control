@@ -12,7 +12,7 @@
 
 // Topics for boiler room
 
-#define TEMPERATURE_INSIDE "boilerroom/temperature/inside"
-#define TEMPERATURE_OUTSIDE "boilerroom/temperature/outside"
+#define TEMPERATURE_INSIDE "temperature/inside"
+#define TEMPERATURE_OUTSIDE "temperature/outside"
 #define BOILER_ONE "boilerroom/boiler/one"
 #define BOILER_TWO "boilerroom/boiler/two"
