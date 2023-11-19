@@ -4,4 +4,4 @@ COPY ./requiroments.txt ./
 RUN pip3 install -r requiroments.txt
 COPY . .
 RUN chmod +x ./main.py
-CMD flask --app main_with_kafka.py run --host 0.0.0.0
+CMD flask --app main.py run --host 0.0.0.0

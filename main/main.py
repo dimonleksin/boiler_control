@@ -43,18 +43,18 @@ def index():
 @app.route('/gettemp')
 def getTemp():
     try:
-        result_temp
-        temp = requests.get(f'{main_settings.boiler_address}/temp')
-        result = BeautifulSoup(temp.text, "html.parser").string
-        json_pars = json.loads(result)
-
-        for k, v in json_pars.items():
-            result_temp += f"<p>Temperature in {k} = {v}</p>"
-
+        consumer = kafka.KafkaConsumer(
+            client_id = flask_server,
+            bootstrap_servers = main_settings.bootstrap_servers,
+            auto_offset_reset = "latest"
+        )  
+        if consumer.bootstrap_connected():
+            consumer.assigment("temperature.from.boiler.room")
+            temperature_in_boilerroom = comsumer.pool()     
         return render_template(
             'index.html',
             temperature = True,
-            temp = resul_temp,
+            temp = temperature_in_boilerroom,
             utc_dt = content,
             title = title,
             menu = main_settings.menu,
