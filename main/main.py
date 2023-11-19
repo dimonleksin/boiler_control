@@ -9,8 +9,6 @@
 # from threading import Thread
 # import time
 
-import requests
-import json
 import main_settings
 from flask import Flask, request, render_template
 import kafka
