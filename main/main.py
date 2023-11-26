@@ -13,7 +13,7 @@ import requests
 import json
 import main_settings
 from flask import Flask, request, render_template
-import kafka
+# import kafka
 # import logging
 
 # root = logging.getLogger() 
@@ -55,48 +55,48 @@ def getTemp():
     except Exception as ex:
         return ex, 501
 
-@app.route('/status')
-def getBoilerStatus ():
-    boiler1 = ""
-    boiler2 = ""
+# @app.route('/status')
+# def getBoilerStatus ():
+#     boiler1 = ""
+#     boiler2 = ""
 
-    boiler_number = int(request.args.get('number'))
-    res1 = requests.get(f'{main_settings.boiler_address}/status-1')
-    status_boiler_1 = json.loads(BeautifulSoup(res1.text, "html.parser").string)
+#     boiler_number = int(request.args.get('number'))
+#     res1 = requests.get(f'{main_settings.boiler_address}/status-1')
+#     status_boiler_1 = json.loads(BeautifulSoup(res1.text, "html.parser").string)
 
-    res1 = requests.get(f'{main_settings.boiler_address}/status-2')
-    status_boiler_2 = json.loads(BeautifulSoup(res1.text, "html.parser").string)
+#     res1 = requests.get(f'{main_settings.boiler_address}/status-2')
+#     status_boiler_2 = json.loads(BeautifulSoup(res1.text, "html.parser").string)
 
-    kafka.KafkaConsumer()
+#     kafka.KafkaConsumer()
 
-    if status_boiler_1["boiler_1_status"] == "Boiler is on":
-        boiler1 = "checked"
-    else:
-        boiler1 = ""
+#     if status_boiler_1["boiler_1_status"] == "Boiler is on":
+#         boiler1 = "checked"
+#     else:
+#         boiler1 = ""
 
-    if status_boiler_2["boiler_2_status"] == "Boiler is on":
-        boiler2 = "checked"
-    else:
-        boiler2 = ""
+#     if status_boiler_2["boiler_2_status"] == "Boiler is on":
+#         boiler2 = "checked"
+#     else:
+#         boiler2 = ""
 
-    # Geting form 
-    if request.method == "POST":
-        boiler1 = bool(request.form.get("boiler_1", False))
-        boiler2 = bool(request.form.get("boiler_2", False))
+#     # Geting form 
+#     if request.method == "POST":
+#         boiler1 = bool(request.form.get("boiler_1", False))
+#         boiler2 = bool(request.form.get("boiler_2", False))
 
-        content = "Boilers status changed."
+#         content = "Boilers status changed."
 
-    content = ''
-    return render_template(
-        'index.html',
-        boiler1 = boiler1,
-        boiler2 = boiler2,
-        utc_dt = content,
-        title = title,
-        menu = main_settings.menu,
-        style = main_settings.css,
-        form = "True"
-    ), 200
+#     content = ''
+#     return render_template(
+#         'index.html',
+#         boiler1 = boiler1,
+#         boiler2 = boiler2,
+#         utc_dt = content,
+#         title = title,
+#         menu = main_settings.menu,
+#         style = main_settings.css,
+#         form = "True"
+#     ), 200
 
 # For on boiler send args: ?status={1|0},number={boiler number}
 
