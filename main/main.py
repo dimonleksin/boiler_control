@@ -117,7 +117,7 @@ def setBoilerStatus():
     except Exception as ex:
         return ex, 415
 
-@app.route('test')
+@app.route('/test')
 def test():
     return {
         "tempBoiler": 22,
