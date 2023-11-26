@@ -9,6 +9,8 @@
 # from threading import Thread
 # import time
 
+import requests
+import json
 import main_settings
 from flask import Flask, request, render_template
 import kafka
@@ -41,23 +43,15 @@ def index():
 @app.route('/gettemp')
 def getTemp():
     try:
-        consumer = kafka.KafkaConsumer(
-            client_id = flask_server,
-            bootstrap_servers = main_settings.bootstrap_servers,
-            auto_offset_reset = "latest"
-        )  
-        if consumer.bootstrap_connected():
-            consumer.assigment("temperature.from.boiler.room")
-            temperature_in_boilerroom = comsumer.pool()     
-        return render_template(
-            'index.html',
-            temperature = True,
-            temp = temperature_in_boilerroom,
-            utc_dt = content,
-            title = title,
-            menu = main_settings.menu,
-            style = main_settings.css,
-        ), 200
+        result_temp
+        temp = requests.get(f'{main_settings.boiler_address}/temp')
+        result = BeautifulSoup(temp.text, "html.parser").string
+        json_pars = json.loads(result)
+
+        for k, v in json_pars.items():
+            result_temp += f"<p>Temperature in {k} = {v}</p>"
+
+        return json_pars, 200
     except Exception as ex:
         return ex, 501
 
@@ -122,6 +116,14 @@ def setBoilerStatus():
         # return 'ok'
     except Exception as ex:
         return ex, 415
+
+@app.route('test')
+def test():
+    return {
+        "tempBoiler": 22,
+	    "tempHouse": 21,
+	    "tempOutside": 43
+    }
 
 # Get current temp at bath
 @app.route('/get_bath_temp')
